@@ -19,7 +19,9 @@ script:
   - mkdir espressif
   - cd espressif
   - ln -s $TRAVIS_BUILD_DIR esp32
-  - cd esp32/tools
+  - cd esp32
+  - git submodule update --init --recursive
+  - cd tools
   - python get.py
   - export PATH="$HOME/arduino_ide:$TRAVIS_BUILD_DIR/tools/xtensa-esp32-elf/bin:$PATH"
   - which arduino
@@ -37,7 +39,7 @@ script:
   - echo -e "travis_fold:start:platformio_test_env_prepare"
   - pip install -U https://github.com/platformio/platformio/archive/develop.zip
   - platformio platform install https://github.com/platformio/platform-espressif32.git#feature/stage
-  - sed -i 's/https:\/\/github\.com\/espressif\/arduino-esp32\.git/*/' ~/.platformio/platforms/espressif32_stage/platform.json
+  - sed -i 's/https:\/\/github\.com\/espressif\/arduino-esp32\.git/*/' ~/.platformio/platforms/espressif32/platform.json
   - ln -s $TRAVIS_BUILD_DIR ~/.platformio/packages/framework-arduinoespressif32
   - echo -e "travis_fold:end:platformio_test_env_prepare"
   - echo -e "travis_fold:start:platformio_test"

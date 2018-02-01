@@ -27,6 +27,17 @@
  */
 esp_err_t esp_spiram_init();
 
+/**
+ * @brief Configure Cache/MMU for access to external SPI RAM.
+ *
+ * Normally this function is called from cpu_start, if CONFIG_SPIRAM_BOOT_INIT
+ * option is enabled. Applications which need to enable SPI RAM at run time
+ * can disable CONFIG_SPIRAM_BOOT_INIT, and call this function later.
+ *
+ * @attention this function must be called with flash cache disabled.
+ */
+void esp_spiram_init_cache();
+
 
 /**
  * @brief Memory test for SPI RAM. Should be called after SPI RAM is initialized and
@@ -62,6 +73,18 @@ size_t esp_spiram_get_size();
  */
 void esp_spiram_writeback_cache();
 
+
+
+/**
+ * @brief Reserve a pool of internal memory for specific DMA/internal allocations
+ *
+ * @param size Size of reserved pool in bytes
+ *
+ * @return
+ *          - ESP_OK on success
+ *          - ESP_ERR_NO_MEM when no memory available for pool
+ */
+esp_err_t esp_spiram_reserve_dma_pool(size_t size);
 
 
 #endif
